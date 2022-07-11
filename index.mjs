@@ -35,7 +35,6 @@ const Player = (Who) => ({
         console.log(`Bob got ${fmt(outValue)}.`)
     },
 })
-console.log('wager:', stdlib.parseCurrency(5))
 
 await Promise.all([
     ctcAlice.p.Alice({
@@ -43,7 +42,6 @@ await Promise.all([
     }),
     ctcBob.p.Bob({
         ...Player('Bob'), acceptWager: (amt) => {
-            console.log('amt:', amt);
             console.log(`Bob accepts the wager of ${fmt(amt)}.`);
         }
     })

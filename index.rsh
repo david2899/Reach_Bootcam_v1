@@ -23,26 +23,28 @@ export const main = Reach.App(() => {
     const handAlice = declassify(interact.getHand())
   })
   Alice.publish(wager, handAlice).pay(wager);
-  commit()
-
-  Bob.only(() => {
-    interact.acceptWager(wager)
-    const handBob = declassify(interact.getHand())
-  })
-  Bob.publish(handBob).pay(wager)
-
-
-  const outCome = (handAlice + (4 - handBob)) % 3
-  const [forAlice, forBob] =
-    outCome === 2 ? [2, 0] :
-      outCome === 0 ? [0, 2] : [1, 1];
-  transfer(forAlice * wager).to(Alice);
-  transfer(forBob * wager).to(Bob);
   commit();
-  each([Alice, Bob], () => {
-    interact.seeOutcome(outCome)
-    interact.seeOutValue1(forAlice * wager)
-    interact.seeOutValue2(forBob * wager)
-  })
 
-})
+  unknowable(Bob, Alice(handAlice)); 
+  Bob.only(() => {
+    interact.acceptWager(wager);
+    const handBob = declassify(interact.getHand());
+  });
+  Bob.publish(handBob).pay(wager);
+
+  const outCome = (handAlice + (4 - handBob)) % 3;
+  const             [forAlice, forBob] =
+    outCome === 2 ? [ 2       ,     0] :
+    outCome === 0 ? [ 0       ,     2] : 
+    /** Tie */      [ 1       ,     1] ;
+  transfer(forAlice * wager).to(Alice) ;
+  transfer(forBob   * wager).to( Bob ) ;
+  commit();
+
+  each([Alice, Bob], () => {
+    interact.seeOutcome(outCome);
+    // interact.seeOutValue1(forAlice * wager)
+    // interact.seeOutValue2(forBob * wager)
+  });
+
+});
