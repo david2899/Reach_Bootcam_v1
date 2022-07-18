@@ -13,9 +13,11 @@ const fmt = (x) => stdlib.formatCurrency(x, 4);
 const getBalance = async (who) => fmt(await stdlib.balanceOf(who));
 const beforeAlice = await getBalance(accAlice);
 const beforeBob = await getBalance(accBob);
-const HAND = ['Rock', 'Paper', 'Scissors']
-const OUTCOME = ['Bob wins', 'Draw', 'Alice wins']
+const HAND = ['Rock', 'Paper', 'Scissors'];
+const OUTCOME = ['Bob wins', 'Draw', 'Alice wins'];
+
 const Player = (Who) => ({
+    ...stdlib.hasRandom,
     getHand: () => {
         const hand = Math.floor(Math.random() * 3)
         console.log(`${Who} played ${HAND[hand]}`)
